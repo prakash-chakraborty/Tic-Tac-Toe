@@ -157,11 +157,10 @@ class Board extends React.Component {
           const col = clickPosition % 3;
             const desc = move?
             move===this.state.lastStepClicked?
-            <b>Go to step #{move}. Position: ({row},{col})</b>:
-            <span>Go to step #{move}. Position: ({row},{col})</span>:
-            'Go to game start';
-            return (<li key={move}>
-                <button onClick={()=>this.jumpTo(move)}>{desc}</button>
+            <b>[Selected] Step #{move}. Position: ({row},{col})</b>:
+            <span>Step #{move}. Position: ({row},{col})</span>:''
+            return (<li key={move} className="">
+                <span onClick={()=>this.jumpTo(move)}>{desc}</span>
             </li>)
         });
         if(!this.state.sortAsc){
@@ -187,23 +186,30 @@ class Board extends React.Component {
     <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
       <div className="max-w-md mx-auto">
       <div className="mx-auto">
-          <img src={logo} alt="logo" className="h-12 my-4 mx-auto" />
+          <img src={logo} alt="logo" className="h-12 my-0 mx-auto" />
       </div>
       <div className="w-full overflow-hidden text-center">
-      <p className="text-lg py-2 px-4 my-4">{status}</p>
+      <p className="text-lg py-2 px-4 my-3">{status}</p>
             <Board 
                 squares={current.squares}
                 winningTiles={winningTiles}
                 onClick={(i)=> this.handleClick(i)}
             />
         </div>
-        <div className="my-10">
-        <button className="py-2 px-4 m-2 float-left bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75" onClick={()=>window.location.reload()}>Restart ↺</button>
-           <button className="py-2 px-4 m-2 float-right bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75" onClick={()=>this.handleToggleClick()}>{sort}</button>
-            {/* <ol>{moves}</ol> */}
+        <div className="my-3 mx-auto">
+           <button className="py-2 px-0 m-2 mx-auto focus:outline-none text-black font-semibold cursor-default" >Move History:</button>
+           <button className="py-2 px-4 m-2 mx-auto float-right bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75" onClick={()=>this.handleToggleClick()}>{sort}</button>
+          </div>
+          <div className="text-center">
+          <ol className="list-none cursor-pointer list-inside">{moves}</ol>
+          {/* <button className="py-2 px-4 bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75" onClick={()=>window.location.reload()}>Restart ↺</button> */}
           </div>
         </div>
       </div>
+      
+    </div>
+    <div className="my-10 bottom-5 text-center">
+    <a className="text-xs text-sky-900" href="https://www.linkedin.com/in/prakash1994/">by Prakash Chakraborty</a>
     </div>
   </div>
       );
