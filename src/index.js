@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './tailwind.css';
+import logo from './logo.jpg'
 
 function Square(props){
-    let classes = "square";
+    let classes = "bg-cyan-100 rounded-2xl md:p-6 text-2xl cursor-pointer";
     if(props.iswinningTile){
-      classes = "winning-square"
+      classes = "bg-green-200 rounded-2xl md:p-6 text-2xl cursor-pointer"
     }
+    let datatoShow = props.value===null? "✎":props.value;
       return (
-        <button className={classes} onClick={props.onClick}>
-          {props.value}
-        </button>
+        <div className={classes} onClick={props.onClick}>
+          <span className="font-bold">{datatoShow}</span>
+        </div>
       );
 }
   
@@ -25,22 +27,30 @@ class Board extends React.Component {
   
     render() {
       let squares =[];
-      let count=0;
-      for(let i=0;i<3;i++){
-        let children=[];
-        for(let j=0;j<3;j++){
-          if(this.props.winningTiles.includes(count)){
-            children.push(this.renderSquare(count,true));
-          }else{
-            children.push(this.renderSquare(count,false));
-          }
+      //let count=0;
+      // for(let i=0;i<3;i++){
+      //   let children=[];
+      //   for(let j=0;j<3;j++){
+      //     if(this.props.winningTiles.includes(count)){
+      //       children.push(this.renderSquare(count,true));
+      //     }else{
+      //       children.push(this.renderSquare(count,false));
+      //     }
           
-          count++;
+      //     count++;
+      //   }
+      //   squares.push(<div key={i}>{children}</div>);
+      // }
+      for(let i=0;i<9;i++){
+          if(this.props.winningTiles.includes(i)){
+            squares.push(this.renderSquare(i,true));
+          }else{
+            squares.push(this.renderSquare(i,false));
+          }
         }
-        squares.push(<div className="board-row" key={i}>{children}</div>);
-      }
+
     return (
-        <div>
+        <div className="grid grid-rows-3 grid-cols-3 gap-4">
           {squares}
         </div>
       );
@@ -171,21 +181,31 @@ class Board extends React.Component {
         }
 
       return (
-        <div className="game">
-          <div className="game-board">
+        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+  <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+    <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+      <div className="max-w-md mx-auto">
+      <div className="mx-auto">
+          <img src={logo} alt="logo" className="h-12 my-4 mx-auto" />
+      </div>
+      <div className="w-full overflow-hidden text-center">
+      <p className="text-lg py-2 px-4 my-4">{status}</p>
             <Board 
                 squares={current.squares}
                 winningTiles={winningTiles}
                 onClick={(i)=> this.handleClick(i)}
             />
-          </div>
-          <div className="game-info">
-            <button onClick={()=>this.handleToggleClick()}>{sort}</button>
-            <button onClick={()=>window.location.reload()}>Restart ↺</button>
-            <div>{status}</div>
-            <ol>{moves}</ol>
+        </div>
+        <div className="my-10">
+        <button className="py-2 px-4 m-2 float-left bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75" onClick={()=>window.location.reload()}>Restart ↺</button>
+           <button className="py-2 px-4 m-2 float-right bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75" onClick={()=>this.handleToggleClick()}>{sort}</button>
+            {/* <ol>{moves}</ol> */}
           </div>
         </div>
+      </div>
+    </div>
+  </div>
       );
     }
   }
